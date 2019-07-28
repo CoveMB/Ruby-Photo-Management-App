@@ -1,5 +1,5 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+  # Settings specified here will take precedence over config/application.rb.
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -8,6 +8,19 @@ Rails.application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
+
+  # Mailer configuration
+  ActionMailer::Base.smtp_settings = {
+    address: 'smtp.sendgrid.net',
+    port: '587',
+    authentication: :plain,
+    user_name: Rails.application.credentials[:sendgrid][:user_name],
+    password: Rails.application.credentials[:sendgrid][:password],
+    domain: 'heroku.com',
+    enable_starttls_auto: true
+  }
+  config.action_mailer.delivery_method = :test
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   # Show full error reports.
   config.consider_all_requests_local = true
